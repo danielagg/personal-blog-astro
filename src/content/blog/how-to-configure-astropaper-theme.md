@@ -8,7 +8,6 @@ draft: false
 tags:
   - configuration
   - docs
-ogImage: ""
 description: How you can make AstroPaper theme absolutely yours.
 ---
 
@@ -29,7 +28,6 @@ export const SITE = {
   author: "Sat Naing",
   desc: "A minimal, responsive and SEO-friendly Astro blog theme.",
   title: "AstroPaper",
-  ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerPage: 3,
 };
@@ -37,15 +35,14 @@ export const SITE = {
 
 Here are SITE configuration options
 
-| Options            | Description                                                                                                                                                  |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `website`          | Your deployed website url                                                                                                                                    |
-| `author`           | Your name                                                                                                                                                    |
-| `desc`             | Your site description. Useful for SEO and social media sharing.                                                                                              |
-| `title`            | Your site name                                                                                                                                               |
-| `ogImage`          | Your default OG image for the site. Useful for social media sharing. OG images can be an external image url or they can be placed under `/public` directory. |
-| `lightAndDarkMode` | Enable or disable `light & dark mode` for the website. If disabled, primary color scheme will be used. This option is enabled by default.                    |
-| `postPerPage`      | You can specify how many posts will be displayed in each posts page. (eg: if you set SITE.postPerPage to 3, each page will only show 3 posts per page)       |
+| Options            | Description                                                                                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `website`          | Your deployed website url                                                                                                                              |
+| `author`           | Your name                                                                                                                                              |
+| `desc`             | Your site description. Useful for SEO and social media sharing.                                                                                        |
+| `title`            | Your site name                                                                                                                                         |
+| `lightAndDarkMode` | Enable or disable `light & dark mode` for the website. If disabled, primary color scheme will be used. This option is enabled by default.              |
+| `postPerPage`      | You can specify how many posts will be displayed in each posts page. (eg: if you set SITE.postPerPage to 3, each page will only show 3 posts per page) |
 
 ## Configuring locale
 

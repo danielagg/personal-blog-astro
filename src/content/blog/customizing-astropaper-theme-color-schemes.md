@@ -8,7 +8,6 @@ draft: false
 tags:
   - color-schemes
   - docs
-ogImage: ""
 description:
   How you can enable/disable light & dark mode; and customize color schemes
   of AstroPaper theme.
@@ -29,8 +28,6 @@ export const SITE = {
   author: "Sat Naing",
   desc: "A minimal, responsive and SEO-friendly Astro blog theme.",
   title: "AstroPaper",
-  ogImage: "astropaper-og.jpg",
-  lightAndDarkMode: true, // true by default
   postPerPage: 3,
 };
 ```
@@ -45,7 +42,7 @@ Thus, to choose primary color scheme instead of prefers-color-scheme, we have to
 
 ```js
 /* file: public/toggle-theme.js */
-const primaryColorScheme = ""; // "light" | "dark"
+const primaryColorScheme = "dark"; // "light" | "dark"
 
 // Get theme data from local storage
 const currentTheme = localStorage.getItem("theme");

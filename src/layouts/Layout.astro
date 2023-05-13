@@ -8,22 +8,17 @@ export interface Props {
   title?: string;
   author?: string;
   description?: string;
-  ogImage?: string;
 }
 
 const {
   title = SITE.title,
   author = SITE.author,
   description = SITE.desc,
-  ogImage = SITE.ogImage,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const socialImageURL = new URL(
-  ogImage ? ogImage : SITE.ogImage,
-  Astro.url.origin
-).href;
+const socialImageURL = new URL(Astro.url.origin).href;
 ---
 
 <!DOCTYPE html>
@@ -73,8 +68,6 @@ const socialImageURL = new URL(
         />
       )
     }
-
-    <script is:inline src="/toggle-theme.js"></script>
   </head>
   <body>
     <slot />

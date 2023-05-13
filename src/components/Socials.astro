@@ -6,11 +6,9 @@ import socialIcons from "@assets/socialIcons";
 export interface Props {
   centered?: boolean;
 }
-
-const { centered = false } = Astro.props;
 ---
 
-<div class={`social-icons ${centered ? "flex" : ""}`}>
+<div class={`flex-wrap justify-center flex`}>
   {
     SOCIALS.filter(social => social.active).map(social => (
       <LinkButton
@@ -25,10 +23,7 @@ const { centered = false } = Astro.props;
 </div>
 
 <style>
-  .social-icons {
-    @apply flex-wrap justify-center gap-1;
-  }
   .link-button {
-    @apply p-2 hover:rotate-6 sm:p-1;
+    @apply p-2 sm:p-1;
   }
 </style>
