@@ -24,7 +24,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
       <div className="flex items-center space-x-4">
         <PostDate datetime={pubDatetime} />
         {isApiumArticle ? (
-          <div className="my-1 inline-flex items-center space-x-2 border-l-4 border-main-accent-dark py-1 px-2 text-xs text-main-accent opacity-50">
+          <div className="my-1 inline-flex items-center space-x-2 border-l-4 border-main-accent py-1 px-2 text-xs opacity-50 dark:border-main-accent-dark">
             This is an article posted on my employer's (Apiumhub) blog.
           </div>
         ) : (

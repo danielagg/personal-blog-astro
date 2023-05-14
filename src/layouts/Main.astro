@@ -10,7 +10,10 @@ const { pageTitle, pageDesc } = Astro.props;
 ---
 
 <Breadcrumbs />
-<main id="main-content" class="bg-main-base text-main-base">
+<main
+  id="main-content"
+  class="base-inverted text-main-base-inverted dark:bg-main-base dark:text-main-base"
+>
   <h1>{pageTitle}</h1>
   <p>{pageDesc}</p>
   <slot />

@@ -70,7 +70,9 @@ const socialImageURL = new URL(Astro.url.origin).href;
       )
     }
   </head>
-  <body class="bg-main-base text-main-base">
+  <body
+    class="base-inverted text-main-base-inverted dark:bg-main-base dark:text-main-base"
+  >
     <slot />
   </body>
 </html>

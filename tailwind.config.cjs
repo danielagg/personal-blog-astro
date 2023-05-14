@@ -10,6 +10,7 @@ module.exports = {
     textColor: {
       main: {
         base: '#6b7280',
+        'base-inverted': "#6b7280",
         'base-light': '#9ca3af',
         accent: '#10b981',
         'accent-light': '#34d399',
@@ -18,13 +19,16 @@ module.exports = {
     backgroundColor: {
       main: {
         base: '#0f172a',
+        'base-inverted': '#f1f5f9',
         accent: '#0f172a',
       }
     },
     borderColor: {
       main: {
         base: '#374151',
-        'accent-dark': '#047857'
+        'base-inverted': '#d1d5db',
+        'accent-dark': '#374151',
+        'accent': '#d1d5db'
       }
     },
     fontFamily: {
