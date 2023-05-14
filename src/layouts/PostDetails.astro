@@ -2,8 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import Tag from "@components/Tag.astro";
-import Datetime from "@components/Datetime";
+import PostDate from "@components/Date";
 import type { CollectionEntry } from "astro:content";
 
 export interface Props {
@@ -12,7 +11,7 @@ export interface Props {
 
 const { post } = Astro.props;
 
-const { title, author, description, pubDatetime, tags } = post.data;
+const { title, author, description, pubDatetime } = post.data;
 
 const { Content } = await post.render();
 ---
@@ -33,7 +32,7 @@ const { Content } = await post.render();
   </div>
   <main id="main-content">
     <h1 class="post-title">{title}</h1>
-    <Datetime datetime={pubDatetime} className="my-2" />
+    <PostDate datetime={pubDatetime} className="my-2" />
     <article id="article" role="article" class="prose mx-auto mt-8 max-w-5xl">
       <Content />
     </article>

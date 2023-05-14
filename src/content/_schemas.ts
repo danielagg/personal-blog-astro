@@ -8,8 +8,9 @@ export const blogSchema = z
     postSlug: z.string().optional(),
     featured: z.boolean().optional(),
     draft: z.boolean().optional(),
-    tags: z.array(z.string()).default(["others"]),
     description: z.string(),
+    externalUrl: z.string().url().optional(),
+    isApiumArticle: z.boolean().optional(),
   })
   .strict();
 
