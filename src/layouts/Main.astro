@@ -10,20 +10,8 @@ const { pageTitle, pageDesc } = Astro.props;
 ---
 
 <Breadcrumbs />
-<main id="main-content">
+<main id="main-content" class="bg-main-base text-main-base">
   <h1>{pageTitle}</h1>
   <p>{pageDesc}</p>
   <slot />
 </main>
-
-<style>
-  #main-content {
-    @apply mx-auto  px-4 pb-12;
-  }
-  #main-content h1 {
-    @apply text-2xl font-semibold sm:text-3xl;
-  }
-  #main-content p {
-    @apply mt-2 mb-6 italic;
-  }
-</style>

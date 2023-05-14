@@ -7,7 +7,11 @@ import socialIcons from "@assets/socialIcons";
 <div class={`flex-wrap justify-center flex`}>
   {
     SOCIALS.filter(social => social.active).map(social => (
-      <LinkButton href={social.href} className="p-2" title={social.linkTitle}>
+      <LinkButton
+        href={social.href}
+        className="hover:text-main-accent-light p-2"
+        title={social.linkTitle}
+      >
         <Fragment set:html={socialIcons[social.name]} />
       </LinkButton>
     ))

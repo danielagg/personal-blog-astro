@@ -20,31 +20,28 @@ const { Content } = await post.render();
   <Header />
   <div class="mx-auto flex w-full max-w-5xl justify-start px-2">
     <button
-      class="focus-outline mt-8 mb-2 flex hover:opacity-75"
+      class="focus-outline mt-8 mb-2 flex items-center hover:text-main-base-light"
       onclick="history.back()"
     >
-      <svg xmlns="http://www.w3.org/2000/svg"
-        ><path
-          d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
-        ></path>
-      </svg><span>Go back</span>
+      <div class="pr-2 text-xl">‹</div>
+      <div>Go back</div>
     </button>
   </div>
-  <main id="main-content">
-    <h1 class="post-title">{title}</h1>
-    <PostDate datetime={pubDatetime} className="my-2" />
-    <article id="article" role="article" class="prose mx-auto mt-8 max-w-5xl">
-      <Content />
-    </article>
-  </main>
-  <Footer />
 </Layout>
+<main id="main-content">
+  <h1 class="post-title">{title}</h1>
+  <PostDate datetime={pubDatetime} className="my-2" />
+  <article id="article" role="article" class="prose mx-auto mt-8 max-w-5xl">
+    <Content />
+  </article>
+</main>
+<Footer />
 
 <style>
   main {
     @apply mx-auto w-full max-w-5xl px-4 pb-12;
   }
   .post-title {
-    @apply mt-6 text-4xl font-semibold text-skin-accent;
+    @apply mt-6 cursor-pointer text-4xl font-semibold text-main-accent-light hover:text-main-accent-light;
   }
 </style>

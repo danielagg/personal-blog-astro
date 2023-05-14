@@ -30,7 +30,7 @@ Light color scheme has to be defined using the css selector `:root` and `html[da
 :root,
 html[data-theme="light"] {
   --color-fill: 246, 238, 225;
-  --color-text-base: 1, 44, 86;
+  --color-text-main-base: 1, 44, 86;
   --color-accent: 225, 74, 57;
   --color-card: 217, 209, 195;
   --color-card-muted: 239, 216, 176;
@@ -46,7 +46,7 @@ html[data-theme="light"] {
 :root,
 html[data-theme="light"] {
   --color-fill: 242, 245, 236;
-  --color-text-base: 53, 53, 56;
+  --color-text-main-base: 53, 53, 56;
   --color-accent: 17, 88, 209;
   --color-card: 206, 213, 180;
   --color-card-muted: 187, 199, 137;
@@ -62,7 +62,7 @@ html[data-theme="light"] {
 :root,
 html[data-theme="light"] {
   --color-fill: 250, 252, 252;
-  --color-text-base: 34, 46, 54;
+  --color-text-main-base: 34, 46, 54;
   --color-accent: 211, 0, 106;
   --color-card: 234, 206, 219;
   --color-card-muted: 241, 186, 212;
@@ -81,7 +81,7 @@ Light color scheme has to be defined as `html[data-theme="dark"]`.
 ```css
 html[data-theme="dark"] {
   --color-fill: 47, 55, 65;
-  --color-text-base: 230, 230, 230;
+  --color-text-main-base: 230, 230, 230;
   --color-accent: 26, 217, 217;
   --color-card: 63, 75, 90;
   --color-card-muted: 89, 107, 129;
@@ -96,7 +96,7 @@ html[data-theme="dark"] {
 ```css
 html[data-theme="dark"] {
   --color-fill: 33, 35, 61;
-  --color-text-base: 244, 247, 245;
+  --color-text-main-base: 244, 247, 245;
   --color-accent: 255, 82, 86;
   --color-card: 57, 60, 102;
   --color-card-muted: 74, 78, 134;
@@ -111,7 +111,7 @@ html[data-theme="dark"] {
 ```css
 html[data-theme="dark"] {
   --color-fill: 53, 54, 64;
-  --color-text-base: 233, 237, 241;
+  --color-text-main-base: 233, 237, 241;
   --color-accent: 255, 120, 200;
   --color-card: 75, 76, 89;
   --color-card-muted: 113, 85, 102;
@@ -127,7 +127,7 @@ html[data-theme="dark"] {
 html[data-theme="dark"] {
   --color-fill: 16, 23, 42; /* higher contrast bgColor */
   --color-fill: 33, 39, 55;
-  --color-text-base: 234, 237, 243;
+  --color-text-main-base: 234, 237, 243;
   --color-accent: 255, 107, 1;
   --color-card: 27, 39, 70;
   --color-card-muted: 138, 51, 2;
@@ -142,7 +142,7 @@ html[data-theme="dark"] {
 ```css
 html[data-theme="dark"] {
   --color-fill: 33, 39, 55; /* lower contrast bgColor */
-  --color-text-base: 234, 237, 243;
+  --color-text-main-base: 234, 237, 243;
   --color-accent: 255, 107, 1;
   --color-card: 52, 63, 96;
   --color-card-muted: 138, 51, 2;

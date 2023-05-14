@@ -78,7 +78,7 @@ Both light & dark color schemes of AstroPaper theme can be customized. You can d
   :root,
   html[data-theme="light"] {
     --color-fill: 251, 254, 251;
-    --color-text-base: 40, 39, 40;
+    --color-text-main-base: 40, 39, 40;
     --color-accent: 0, 108, 172;
     --color-card: 230, 230, 230;
     --color-card-muted: 205, 205, 205;
@@ -86,7 +86,7 @@ Both light & dark color schemes of AstroPaper theme can be customized. You can d
   }
   html[data-theme="dark"] {
     --color-fill: 47, 55, 65;
-    --color-text-base: 230, 230, 230;
+    --color-text-main-base: 230, 230, 230;
     --color-accent: 26, 217, 217;
     --color-card: 63, 75, 90;
     --color-card-muted: 89, 107, 129;
@@ -102,14 +102,14 @@ Colors are declared in CSS custom property (CSS Variable) notation. Color proper
 
 Here is the detail explanation of color properties.
 
-| Color Property       | Definition & Usage                                         |
-| -------------------- | ---------------------------------------------------------- |
-| `--color-fill`       | Primary color of the website. Usually the main background. |
-| `--color-text-base`  | Secondary color of the website. Usually the text color.    |
-| `--color-accent`     | Accent color of the website. Link color, hover color etc.  |
-| `--color-card`       | Card, scrollbar and code background color (like `this`).   |
-| `--color-card-muted` | Card and scrollbar background color for hover state etc.   |
-| `--color-border`     | Border color. Especially used in horizontal row (hr)       |
+| Color Property           | Definition & Usage                                         |
+| ------------------------ | ---------------------------------------------------------- |
+| `--color-fill`           | Primary color of the website. Usually the main background. |
+| `--color-text-main-base` | Secondary color of the website. Usually the text color.    |
+| `--color-accent`         | Accent color of the website. Link color, hover color etc.  |
+| `--color-card`           | Card, scrollbar and code background color (like `this`).   |
+| `--color-card-muted`     | Card and scrollbar background color for hover state etc.   |
+| `--color-border`         | Border color. Especially used in horizontal row (hr)       |
 
 Here is an example of changing the light color scheme.
 
@@ -119,7 +119,7 @@ Here is an example of changing the light color scheme.
   :root,
   html[data-theme="light"] {
     --color-fill: 246, 238, 225;
-    --color-text-base: 1, 44, 86;
+    --color-text-main-base: 1, 44, 86;
     --color-accent: 225, 74, 57;
     --color-card: 220, 152, 145;
     --color-card-muted: 233, 119, 106;
