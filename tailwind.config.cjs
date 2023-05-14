@@ -12,18 +12,19 @@ module.exports = {
         base: '#6b7280',
         'base-light': '#9ca3af',
         accent: '#10b981',
-        'accent-light': '#34d399'
+        'accent-light': '#34d399',
       }
     },
     backgroundColor: {
       main: {
         base: '#0f172a',
-        accent: '#0f172a'
+        accent: '#0f172a',
       }
     },
     borderColor: {
       main: {
         base: '#374151',
+        'accent-dark': '#047857'
       }
     },
     fontFamily: {

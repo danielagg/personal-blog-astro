@@ -4,16 +4,21 @@ import LinkButton from "./LinkButton.astro";
 import socialIcons from "@assets/socialIcons";
 ---
 
-<div class={`flex-wrap justify-center flex`}>
-  {
-    SOCIALS.filter(social => social.active).map(social => (
-      <LinkButton
-        href={social.href}
-        className="hover:text-main-accent-light p-2"
-        title={social.linkTitle}
-      >
-        <Fragment set:html={socialIcons[social.name]} />
-      </LinkButton>
-    ))
-  }
+<div>
+  <div class="flex flex-wrap items-center justify-center">
+    {
+      SOCIALS.map(social => (
+        <LinkButton
+          href={social.href}
+          className="text-main-accent hover:text-main-accent-light py-2 pl-4"
+          title={social.linkTitle}
+          newTab
+        >
+          <Fragment set:html={socialIcons[social.name]} />
+        </LinkButton>
+      ))
+    }
+  </div>
+
+  <div class="mt-1 text-xs">daniel.agg@outlook.com</div>
 </div>
