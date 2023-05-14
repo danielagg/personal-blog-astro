@@ -17,8 +17,6 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-
-const socialImageURL = new URL(Astro.url.origin).href;
 ---
 
 <!DOCTYPE html>
@@ -40,7 +38,8 @@ const socialImageURL = new URL(Astro.url.origin).href;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image" content="/assets/og_image.png" />
+    <meta property="og:image:alt" content="Logo of Daniel Agg" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
