@@ -1,10 +1,10 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "http://danielagg.com/",
+  website: "http://blog.danielagg.com/",
   author: "Daniel Agg",
   desc: "The blog of Daniel Agg.",
-  title: "Daniel Agg",
+  title: "Blog | Daniel Agg",
   lightAndDarkMode: false,
   postPerPage: 3,
 };
