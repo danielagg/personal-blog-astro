@@ -5,7 +5,7 @@
 @layer base {
   :root,
   body {
-    @apply flex min-h-screen 
+    @apply flex min-h-screen select-auto
     flex-col font-mono selection:bg-opacity-70;
   }
   section,
@@ -51,38 +51,13 @@
     @apply mb-2;
   }
   .prose details {
-    @apply inline-block cursor-pointer select-none text-main-base;
+    @apply inline-block cursor-pointer text-main-base;
   }
   .prose summary {
     @apply focus-outline;
   }
   .prose h2#table-of-contents + p {
     @apply hidden;
-  }
-
-  /* ===== scrollbar ===== */
-  html {
-    overflow-y: scroll;
-  }
-
-  /* width */
-  ::-webkit-scrollbar {
-    @apply w-3;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    @apply bg-main-base;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    @apply bg-main-base;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-main-base;
   }
 }
 
