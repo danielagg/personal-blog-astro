@@ -14,6 +14,7 @@ module.exports = {
         'base-light': '#9ca3af',
         accent: '#10b981',
         'accent-light': '#34d399',
+        white: '#fff'
       }
     },
     backgroundColor: {
@@ -21,6 +22,7 @@ module.exports = {
         base: '#0f172a',
         'base-inverted': '#f1f5f9',
         accent: '#0f172a',
+        highlight: '#475569'
       }
     },
     borderColor: {
