@@ -3,7 +3,7 @@ author: Daniel Agg
 pubDatetime: 2023-05-13T18:49:00Z
 title: Rust, coming from C#
 postSlug: rust-vs-c-sharp
-draft: false
+draft: true
 description: Checking out and comparing Rust to C#.
 ---
 
