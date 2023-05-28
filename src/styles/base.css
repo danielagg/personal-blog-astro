@@ -8,7 +8,7 @@
     @apply flex min-h-screen flex-col font-mono;
   }
   ::selection {
-    @apply text-main-white bg-main-highlight;
+    @apply bg-main-highlight text-main-white;
   }
   section,
   footer {
@@ -31,8 +31,7 @@
     prose-h3:italic prose-p:!text-main-base
     prose-a:!text-main-base prose-a:!decoration-dashed
     prose-a:underline-offset-8 hover:prose-a:text-main-base
-    prose-blockquote:border-opacity-50
-    prose-blockquote:opacity-80 prose-figcaption:!text-main-base
+    prose-blockquote:border-opacity-50 prose-blockquote:opacity-80 prose-figcaption:!text-main-base
     prose-figcaption:opacity-70 prose-strong:!text-main-base prose-code:rounded 
     prose-code:bg-main-base prose-code:bg-opacity-75
     prose-code:p-1 prose-code:!text-main-base 
