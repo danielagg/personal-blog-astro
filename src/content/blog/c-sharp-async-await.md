@@ -105,14 +105,16 @@ To be continued.
 If an asynchronous method throws an exception, the exception is placed on the returned Task, and the Task is considered as completed. When that Task is awaited, the caller will retrieve the exception, and can rethrow it, while keeping the original stack trace preserved.
 
 ```csharp
+var getPostsTask = GetPostsAsync(); // no exception thrown here
+
 try
 {
-    var getPostsTask = GetPostsAsync(); // no exception thrown here
-    var posts = await getPostsTask; // now we throw
+    var posts = await getPostsTask; // exception thrown, the task is 'faulted', the above 'getPostsTask' variable holds the exception
+    // (there's a Task.Exception property, which holds an AggregateException, as more than one exceptions could be present)
 }
 catch (Exception)
 {
-    // we can capture the full, correct stack trace and can throw it again
+    // we capture the full, correct stack trace and can throw
     throw;
 }
 ```
