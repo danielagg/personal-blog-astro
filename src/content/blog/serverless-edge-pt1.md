@@ -19,9 +19,36 @@ These instance (usually) get deleted right after the request is served.
 
 ![Alt text](https://blog.danielagg.com/assets/serverless_1_dark.png)
 
-If you have been building monoliths, with hundreds of APIs, this might just sound crazy - surely, if our thousands of users per minute, hitting up thousands of APIs, the cost of this would be unimaginable! And you might just be right - this post was written weeks after AWS came out with an impressively transparent post of their own, where ...
+If you have been building monoliths, with hundreds of APIs, this might just sound crazy - surely, if our thousands of users per minute, hitting up thousands of APIs, the cost of this would be unimaginable! And you might just be right - this post was written weeks after Amazon Prime Video came out with an <a href="https://www.primevideotech.com/video-streaming/scaling-up-the-prime-video-audio-video-monitoring-service-and-reducing-costs-by-90" target="_blank">impressively transparent post of their own</a>, in which they detail how they migrated one of their solutions from a distributed, serverless architecture to a classic monolith, reducing their cost by 90%.
 
-As with everything in software architecture, this approach of managing your backend service will depend on your usecase. It might be a good way to go: if you are an indie developer, with a few hundred users, who ocassionally might call one of your APIs, you could end up with a monthly bill of cents, while providing the same experience to your users as with a more traditional VPS.
+As with most thing in software engineering, whether the idea to go serverless is a good one depends on your circustances. It might be a wise decision to go with it, if you are an indie developer or startup, with a few hundred users, who ocassionally might call one of your APIs. You could end up with a monthly bill of cents, while providing the same experience to your users as with a more traditional VPS. Case in point calls to mind <a href="https://www.youtube.com/watch?v=kqHYN1Y7pIc&t=41s" target="_blank">Brandon Minnick's recent talk at NDC Oslo</a>, in which he explains how he hosts the backend of his personal mobile apps on AWS Lambdas, with a cost-concious
+
+## Scalability
+
+This is probably the point where the scalability of serverless has to be discussed. Of course, going serverless is not only for small projects. In hindsight, Amazon Prime's huge project didn't benefit going serverless with their huge solution, due to their unique bottlenecks, but this does not mean that serverless solution does not scale. Since we are not managing the instances of the servers, when the traffic hitting our serverless functions increase, they will auto-increase to facility the higher load. Vice versa, when the traffic decreases, they scale down, even to being completely idle, charging nothing (as in a pay-as-you-go model of charging). With traditional, managed servers, this might be a bit more challenging, especially if auto-scaling is not available.
+
+### Avoiding unexpected bills from autoscale
+
+DDoS?
+Ping
+
+https://www.youtube.com/watch?v=U3fycWWA1tg
+
+1 TB of traffic in less than 20 minutes: rate limit at hundres of thousands requests per minute. Doesn't this cause a bill? Well, cost-capping, budget alerts and limited quotas aside (which are being offered by most, if not all cloud providers). Rate limiting, throttling are ways to go. And yes, there are the occasional Twitter horror stories of unexpected bills, but if the above mentioned steps are considered, deploying a serverless architecture should not be any scarier than provisioning a standard server.
+
+## Event-Driven
+
+## Stateless
+
+WRite to FS? Fucked. System level stuff? Nope. Stateless development.
+
+# Considerations
+
+## Cold starts
+
+## Caching
+
+## Serverless data, databases
 
 --
 
@@ -46,14 +73,6 @@ what can't be done with serverless?
 - stateful stuff
 - websockets? we'd want to keep that open, stateful -> but serverless is fast, quick to spin up and die, not hang around --> workarounds exist, like AWS API gateway, but limitations, eg. 2 hour connection duration
 - system/file system IO
-
-## Event-Driven
-
-## Stateless
-
-WRite to FS? Fucked. System level stuff? Nope. Stateless development.
-
-## Scalable
 
 # Pros & Cons
 
