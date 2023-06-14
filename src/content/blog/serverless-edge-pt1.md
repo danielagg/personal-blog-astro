@@ -11,36 +11,27 @@ This is the introductory post in a two-part series, exploring the world of Serve
 
 # Understanding the Serverless Paradigm
 
-It is probably best to first try to define what exactly are people talking about, when referring to "serverless". With serverless, we as developers are no longer responsible to provision and maintain the underlying servers for our applications, hence the name server-less. Coming from a more traditional way-of-working, this might seem like a crazy idea. If we aren't responsible to manage our servers, then how would our APIs be served to our customers? Of course, it is just an arguably questionable choice of a word: there still are servers under the hood, but these are no longer created, scaled, nor maintained by us, the developers. In a serverless architecture, our cloud provider spins up new instances of a server based on each requests being received.
+It is probably best to start by attempting to define exactly what is being discussed when the term "serverless" is used. With serverless, we as developers are no longer responsible to provision and maintain the underlying servers for our applications, hence the name server-less. Coming from a more traditional way-of-working, this might seem like a crazy idea. If we aren't responsible to manage our servers, then how would our APIs be served to our customers? Of course, it is just an arguably questionable choice of a word: there still are servers under the hood, but these are no longer created, scaled, nor maintained by us, the developers. In a serverless architecture, our cloud provider spins up new instances of a server based on each requests being received.
 
-Yes, every request gets it's own server.
+Indeed, every request gets it's own server.
 
-These instance (usually) get deleted right after the request is served.
+These instance (usually) get deleted shortly after the request is served.
 
-It is quite a radical paradigm shift: it highlights the importance of developers addressing business problems at hand, rather than worry about the server infrastructure. We, as developer no longer have to think about how many server we have, where, and which one takes which request. We don't have to try to make enough server for the requests, but the requests 'make' servers for themselves. Then these servers scale down to nothing, and we only paid for the compute we used. Even at massive scales, this approach can often be cheaper than owning and managing our own, persistent servers.
+It is quite a radical paradigm shift: it emphasizes the importance of developers addressing their business problems at hand, rather than worry about the server infrastructure. No longer do we have to think about how many server we have, where, and which one takes which request. We don't have to try to make enough servers to facilitate the requests, but the requests 'make' servers for themselves. Then these servers scale down to absolute nothing, and thus we only paid for the small amount of compute we've used. Even at massive scales, this approach can often be less expensive than owning and managing our own, persistent servers.
 
 ![Alt text](https://blog.danielagg.com/assets/serverless_1_dark.png)
 
-If you have been building monoliths, with hundreds of APIs, this might just sound insane - surely, if our thousands of users per minute, hitting up thousands of APIs, the cost of this would be unimaginable! And you might just be right - this post was written weeks after Amazon Prime Video came out with an <a href="https://www.primevideotech.com/video-streaming/scaling-up-the-prime-video-audio-video-monitoring-service-and-reducing-costs-by-90" target="_blank">impressively transparent post of their own</a>, in which they detail how they migrated one of their solutions from a distributed, serverless architecture to a classic monolith, reducing their cost by 90%.
+As with most thing in software engineering, whether the idea to go serverless is a good one depends on your circustances. It might be a no brainer to go with it, if you are an indie developer or startup, with a few hundred users, who ocassionally might call one of your APIs. You could end up with a monthly bill of cents, while providing the same experience to your users as with a more traditional VPS. Case in point calls to mind <a href="https://www.youtube.com/watch?v=kqHYN1Y7pIc&t=41s" target="_blank">Brandon Minnick's recent talk at NDC Oslo</a>, in which he explains how he hosts the backend of his personal mobile apps on AWS Lambdas, for less than the price of a single coffee, each month.
 
-As with most thing in software engineering, whether the idea to go serverless is a good one depends on your circustances. It might be a wise decision to go with it, if you are an indie developer or startup, with a few hundred users, who ocassionally might call one of your APIs. You could end up with a monthly bill of cents, while providing the same experience to your users as with a more traditional VPS. Case in point calls to mind <a href="https://www.youtube.com/watch?v=kqHYN1Y7pIc&t=41s" target="_blank">Brandon Minnick's recent talk at NDC Oslo</a>, in which he explains how he hosts the backend of his personal mobile apps on AWS Lambdas, with a cost-concious
+However, if you have been building monoliths, with hundreds of APIs, this might still sound crazy - surely, if our thousands of users per minute, hitting up thousands of APIs, the cost of this would be unimaginable! And you do have a point - this post you are reading right now was written weeks after Amazon Prime Video came out with an <a href="https://www.primevideotech.com/video-streaming/scaling-up-the-prime-video-audio-video-monitoring-service-and-reducing-costs-by-90" target="_blank">impressively transparent post of their own</a>, in which they detail how they migrated one of their solutions from a distributed, serverless architecture to a classic monolith, reducing their cost by 90%. Let's address this point now.
 
 ## Scalability
 
-This is probably the point where the scalability of serverless has to be discussed. Of course, going serverless is not only for small projects. In hindsight, Amazon Prime's huge project didn't benefit going serverless with their huge solution, due to their unique bottlenecks, but this does not mean that serverless solution does not scale. Since we are not managing the instances of the servers, when the traffic hitting our serverless functions increase, they will auto-increase to facility the higher load. Vice versa, when the traffic decreases, they scale down, even to being completely idle, charging nothing (as in a pay-as-you-go model of charging). With traditional, managed servers, this might be a bit more challenging, especially if auto-scaling is not available.
+Of course, going serverless is not only for small projects. In hindsight, Amazon Prime's huge project didn't benefit going serverless with their huge solution, due to their unique bottlenecks, but this does not mean that serverless solution does not scale. Since we are not managing the instances of the servers, when the traffic hitting our serverless functions increase, they will auto-increase to facility the higher load. Vice versa, when the traffic decreases, they scale down, even to being completely idle, charging nothing (as in a pay-as-you-go model of charging). With traditional, managed servers, this might be a bit more challenging, especially if auto-scaling is not available.
 
 ### Avoiding unexpected bills from autoscale
 
 Since our serverless solution autoscales depending on how much traffic it gets, it is a fair question to ask what happens if an unexpectedly large amount of requests starts to hit our functions, in worst case with a malicious indent, trying to DDoS our system. With the pay-as-you-go model, this could ramp up a rather large invoice at the end of the month. In early 2023, there was quite a discussion around this topic on tech Twitter, as multiple open source products, probably most notably ping.gg, an online video-call product was getting 1 TB of traffic going through in a 20 minute window. At the end of the day, with sensible cost-capping, budget alerting and quote-limits, having our bills sky-rocket should not happen, as most cloud providers do offer these features. Rate limiters and throttling are also approaches that could be useful in avoiding situation like so. Of course, there are and probably always will be horror stories of unexpectedly high bills, but if the above mentioned steps are considered, deploying a serverless architecture should not be any scarier than provisioning a standard server.
-
-## Event-Driven
-
-## Stateless
-
-WRite to FS? Fucked. System level stuff? Nope. Stateless development.
-also good: memory leaks! when writing big monoliths, if you are not using RUst (lol), it will come back to bite you. but, if you spin up a server and throw it away after 1 request, this becomes an irrelevant concern (that 'what ifs' might still haunt you)
-
-# Considerations
 
 ## Cold starts
 
@@ -49,14 +40,22 @@ spin up when request is received
 
 Warm start: lamba hangs around after a request is done, with state persisted, and if another request comes, we already have an instance running. Meh.
 
+## Stateless
+
+Avoiding state enables serverless to be ephemeral, to scale out, and to provide resiliency without a central point of failure.
+Adding state can complicate the solution and make it harder to scale.
+
+Store state in a database, like SQL or CosmosDB.
+
+WRite to FS? Fucked. System level stuff? Nope. Stateless development.
+also good: memory leaks! when writing big monoliths, if you are not using RUst (lol), it will come back to bite you. but, if you spin up a server and throw it away after 1 request, this becomes an irrelevant concern (that 'what ifs' might still haunt you)
+
 ## What can't be done?
 
-- any long running stuff/long compute
-- stateful stuff
+- any long running stuff/long compute: Short run times make it easier for the serverless provider to free up resources as functions end and share functions across hosts. Most cloud providers limit the total time your function can run to around 10 minutes.
 - websockets? we'd want to keep that open, stateful -> but serverless is fast, quick to spin up and die, not hang around --> workarounds exist, like AWS API gateway, but limitations, eg. 2 hour connection duration
+- stateful stuff
 - system/file system IO
-
-## Caching
 
 ## Serverless data, databases
 
@@ -99,53 +98,114 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-`vercel dev`
+vercel dev to run it locally
+
 Set up and develop “~/hobby-projects/vercel-go-serverless-example”? [Y/n]
 
-`vercel deploy`
+we don't even need to setup a GitHub repo and connect to it, with vercel's CLI, we can levarage two commands:
 
-Let's change to API to only accept POST requests, and respond in JSON:
+- `vercel deploy`: creating a preview/staging environment
+- `vercel --prod`: actually pushes the serverless function to a production environment
+
+Let's change to API to only accept POST requests, and create a very simple JSON to CSV parser, that converts a predefined array of employee schema:
+
+```ts
+{
+	"name": string,
+	"age": number,
+	"jobTitle": string,
+	"badgeNumber": number
+},
+```
+
+...to a CSV file:
 
 ```go
 package handler
 
 import (
+	"encoding/csv"
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
-type Response struct {
-	Message string `json:"response"`
+// this is the incoming JSON payload's schema
+type EmployeeData struct {
+	Name     	string `json:"name"`
+	Age     	int    `json:"age"`
+	JobTitle	string `json:"jobTitle"`
+	BadgeNumber int    `json:"badgeNumber"`
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
 
+	// we make sure only POST requests are served
 	if r.Method != http.MethodPost {
 		http.Error(w, "Only POST requests are allowed.", http.StatusMethodNotAllowed)
 		return
 	}
 
-	response := Response{
-		Message: "OK",
-	}
+	w.Header().Set("Content-Type", "text/csv")
+	w.Header().Set("Content-Disposition", "attachment; filename=data.csv")
 
-	jsonResponse, err := json.Marshal(response)
+	// parse input JSON
+	var employees []EmployeeData
+	err := json.NewDecoder(r.Body).Decode(&employees)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Could not parse the JSON payload.", http.StatusBadRequest)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(jsonResponse)
+	// create CSV result
+	writer := csv.NewWriter(w)
+	writer.Write([]string{"Name", "Age", "Job Title", "Badge Number"})
+
+	for _, employee := range employees {
+		row := []string{employee.Name, fmt.Sprintf("%d", employee.Age), employee.JobTitle, fmt.Sprintf("%d", employee.BadgeNumber)}
+		err := writer.Write(row)
+		if err != nil {
+			http.Error(w, "Could not write CSV data.", http.StatusInternalServerError)
+			return
+		}
+	}
+
+	writer.Flush()
+
+	if err := writer.Error(); err != nil {
+		http.Error(w, "Could not complete writing CSV data", http.StatusInternalServerError)
+		return
+	}
 }
 ```
 
-With Vercel,
+after we do a deploy to vercel, it'll be available online.
+mine's too, using Vercel's default URL (in my case, https://vercel-serverless-go-fawn.vercel.app) If you decide to run the following curl, you might even experience the cold start of the small Go application from above.
+
+```console
+curl --location 'https://vercel-serverless-go-fawn.vercel.app/api' \
+--header 'Content-Type: application/json' \
+--data '[
+    {
+        "name": "John Doe",
+        "age": 45,
+        "jobTitle": "Software Developer",
+        "badgeNumber": 58195
+    },
+    {
+        "name": "Jane Doe",
+        "age": 32,
+        "jobTitle": "Software Developer",
+        "badgeNumber": 58191
+    }
+]'
+```
 
 # References
 
 - Cloudflare (2023). What is serverless computing? | Serverless definition. https://www.cloudflare.com/learning/serverless/
 - AWS (2023). API Gateway quotas for configuring and running a WebSocket API. https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
+- Microsoft (2022). Serverless architecture considerations. https://learn.microsoft.com/en-us/dotnet/architecture/serverless/serverless-architecture-considerations
 - Vercel (2023). Serverless Functions Overview. https://vercel.com/docs/concepts/functions/serverless-functions
 - Theo - t3․gg (2023). That's It, I'm Done With Serverless\*. https://www.youtube.com/watch?v=UPo_Xahee1g
 - Theo - t3.gg (2023). Two Weeks Of DDOS Attacks - Did We Survive?. https://www.youtube.com/watch?v=U3fycWWA1tg

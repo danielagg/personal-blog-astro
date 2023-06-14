@@ -1,6 +1,6 @@
 ---
 author: Daniel Agg
-pubDatetime: 2023-06-05T00:00:00Z
+pubDatetime: 2023-06-14T00:00:00Z
 title: Serverless and Edge - Part 2
 draft: false
 description: "Exploring Serverless in Software Development: Part 2 - The Edge"
