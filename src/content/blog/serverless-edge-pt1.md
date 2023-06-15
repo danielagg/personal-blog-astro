@@ -76,9 +76,9 @@ There are some obvious usecases where serverless is clearly not the answer:
 
 # Build and deploy a simple serverless function
 
-Most major cloud providers like AWS, Azure, Google Cloud, Cloudflare offer their own version of a serverless product. In my experience, using Vercel tends to be the simplest, as the company puts a lot of effort into creating an amazing developer experience. In this quick demo, I will build a simple Go serverless function and deploy it to Vercel, hosted on GitHub, with Vercel's default CI/CD pipeline. The function will expect a JSON payload from an HTTP POST request's body and convert it to a CSV file, then return it in base64 encoding to the caller.
+Most major cloud providers like AWS, Azure, Google Cloud and Cloudflare offer their own version of a serverless product. In my experience, using Vercel tends to be the simplest, as the company puts a lot of effort into creating an amazing developer experience. In this quick demo, we will build a simple Go serverless function and deploy it to Vercel. The function will expect a JSON payload with a pre-defined schema, from an HTTP POST request's body and convert it to a CSV file, then return it to the caller in a synchronous manner.
 
-We'll first need to install vercel's CLI, then create a new folder, with an "api" folder in it, where we can place our .go files. If we create an index.go file, the API will serve requests for http://localhost:3000/api. Given the following folder strucure:
+We'll first need to install Vercel's CLI (`npm i -g vercel`), then create a new folder, with an "api" folder in it, where we can place our .go files. If we create an index.go file, the API will serve requests for http://localhost:3000/api. With Vercel, our functions are route-based, so given the following folder strucure:
 
 ```
 /api/index.go
@@ -86,13 +86,13 @@ We'll first need to install vercel's CLI, then create a new folder, with an "api
 /api/weather/forecast.go
 ```
 
-Then three we will have three APIs:
+We would have three APIs on:
 
 1. http://localhost:3000/api
 2. http://localhost:3000/api/weather
 3. http://localhost:3000/api/weather/forecast
 
-Following Vercel's template, let's first add the following to our index.go under the root /api folder:
+Following <a href="https://vercel.com/docs/concepts/functions/serverless-functions/runtimes/go" target="_blank">Vercel's template for Go</a>, let's first add the following to our index.go under the root /api folder:
 
 ```go
 package handler
@@ -107,16 +107,11 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-vercel dev to run it locally
+To run it locally, using Vercel's CLI, we can run it as: `vercel dev`
 
-Set up and develop “~/hobby-projects/vercel-go-serverless-example”? [Y/n]
+After we made sure that a 'Hello from Go!' string is returned from http://localhost:3000/api, we can think about deploying it. Again, using Vercel's CLI, we can type `vercel deploy` to push our changes to a staging environment, then `vercel --prod` to a production environment. The CLI will reply back a unique URL to our project, where we can test our serverless function, deployed to the public internet.
 
-we don't even need to setup a GitHub repo and connect to it, with vercel's CLI, we can levarage two commands:
-
-- `vercel deploy`: creating a preview/staging environment
-- `vercel --prod`: actually pushes the serverless function to a production environment
-
-Let's change to API to only accept POST requests, and create a very simple JSON to CSV parser, that converts a predefined array of employee schema:
+Now that we are a bit more confident, let's switch back to our example - given the following JSON payload that we expect our callers to provide in a POST request's body:
 
 ```ts
 {
@@ -124,10 +119,10 @@ Let's change to API to only accept POST requests, and create a very simple JSON 
 	"age": number,
 	"jobTitle": string,
 	"badgeNumber": number
-},
+}[]
 ```
 
-...to a CSV file:
+...our serverless Go function would return a CSV file, where each row is an item from the array. We need to make sure to not change the signature of the method from the example function provided by Vercel, but we can freely import multiple packages, and do our custom logic in the Handler function, as follows:
 
 ```go
 package handler
@@ -188,8 +183,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-after we do a deploy to vercel, it'll be available online.
-mine's too, using Vercel's default URL (in my case, https://vercel-serverless-go-fawn.vercel.app) If you decide to run the following curl, you might even experience the cold start of the small Go application from above.
+We can test it locally via `vercel dev` again, then `vercel deploy` it - my particular URL ended up being https://vercel-serverless-go-fawn.vercel.app, therefore if you decide to run the following curl, you will be able to convert employees data to a CSV - and you might even be lucky enough to experience the cold start of the small Go application from above (which tends to be ~100ms).
 
 ```console
 curl --location 'https://vercel-serverless-go-fawn.vercel.app/api' \
