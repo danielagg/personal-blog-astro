@@ -38,3 +38,9 @@ IoT
 ---
 
 https://edge-data-latency.vercel.app/
+
+- what if we deploy a server in Australia, but our DB is in West EU? Server is close to the user, but if our frontend calls 1 server call, but the serverless function calls multiple requests to the DB (get authorizations, get profile information, get avatar, get notifications, etc -> return user entity) --> poor server does round trips from AUs to EU, rather than if we had the server close to the database, than 1 call from AUS to EU, then 5 inner-EU calls
+
+Azure Cosmos DB
+Vercel Serverless Functions
+AWS?

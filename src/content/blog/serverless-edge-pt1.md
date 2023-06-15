@@ -21,49 +21,58 @@ It is quite a radical paradigm shift: it emphasizes the importance of developers
 
 ![Alt text](https://blog.danielagg.com/assets/serverless_1_dark.png)
 
-As with most thing in software engineering, whether the idea to go serverless is a good one depends on your circustances. It might be a no brainer to go with it, if you are an indie developer or startup, with a few hundred users, who ocassionally might call one of your APIs. You could end up with a monthly bill of cents, while providing the same experience to your users as with a more traditional VPS. Case in point calls to mind <a href="https://www.youtube.com/watch?v=kqHYN1Y7pIc&t=41s" target="_blank">Brandon Minnick's recent talk at NDC Oslo</a>, in which he explains how he hosts the backend of his personal mobile apps on AWS Lambdas, for less than the price of a single coffee, each month.
+As with most thing in software engineering, whether the idea to go serverless is a good one depends on your circustances. It might be a no brainer to go with it, if you are an indie developer or startup, with a few hundred users, who ocassionally might call one of your APIs. You could end up with a monthly bill of cents, while providing the same experience to your users as with a more traditional VPS. Case in point calls to mind <a href="https://www.youtube.com/watch?v=kqHYN1Y7pIc&t=41s" target="_blank">Brandon Minnick's recent talk at NDC Oslo</a>, in which he explains how he hosts the backend of his personal mobile apps on AWS Lambdas (an extremely popular choice to host serverless functions), for less than the price of a single coffee per each month.
 
 However, if you have been building monoliths, with hundreds of APIs, this might still sound crazy - surely, if our thousands of users per minute, hitting up thousands of APIs, the cost of this would be unimaginable! And you do have a point - this post you are reading right now was written weeks after Amazon Prime Video came out with an <a href="https://www.primevideotech.com/video-streaming/scaling-up-the-prime-video-audio-video-monitoring-service-and-reducing-costs-by-90" target="_blank">impressively transparent post of their own</a>, in which they detail how they migrated one of their solutions from a distributed, serverless architecture to a classic monolith, reducing their cost by 90%. Let's address this point now.
 
 ## Scalability
 
-Of course, going serverless is not only for small projects. In hindsight, Amazon Prime's huge project didn't benefit going serverless with their huge solution, due to their unique bottlenecks, but this does not mean that serverless solution does not scale. Since we are not managing the instances of the servers, when the traffic hitting our serverless functions increase, they will auto-increase to facility the higher load. Vice versa, when the traffic decreases, they scale down, even to being completely idle, charging nothing (as in a pay-as-you-go model of charging). With traditional, managed servers, this might be a bit more challenging, especially if auto-scaling is not available.
+Of course, going serverless is not only for small projects. In hindsight, Amazon Prime's huge project didn't benefit from going serverless with their solution, due to their unique bottlenecks related to processing every frame in a video, but this does not mean that serverless solutions do not scale. Since we are not managing the instances of the servers, when the traffic hitting our serverless functions increase, our cloud provide will auto-scale our function to facility the higher load. Vice versa, when the traffic decreases, they scale it down, even to not running at all, charging nothing (as in a pay-as-you-go model). With traditional, managed servers, this might be a bit more challenging to replicate, especially if auto-scaling is not available.
 
 ### Avoiding unexpected bills from autoscale
 
-Since our serverless solution autoscales depending on how much traffic it gets, it is a fair question to ask what happens if an unexpectedly large amount of requests starts to hit our functions, in worst case with a malicious indent, trying to DDoS our system. With the pay-as-you-go model, this could ramp up a rather large invoice at the end of the month. In early 2023, there was quite a discussion around this topic on tech Twitter, as multiple open source products, probably most notably ping.gg, an online video-call product was getting 1 TB of traffic going through in a 20 minute window. At the end of the day, with sensible cost-capping, budget alerting and quote-limits, having our bills sky-rocket should not happen, as most cloud providers do offer these features. Rate limiters and throttling are also approaches that could be useful in avoiding situation like so. Of course, there are and probably always will be horror stories of unexpectedly high bills, but if the above mentioned steps are considered, deploying a serverless architecture should not be any scarier than provisioning a standard server.
+Since our serverless solution autoscales depending on how much traffic it gets, it is a fair question to ask what happens if an unexpectedly large amount of requests start to hit our functions, in worst case with a malicious indent, trying to DDoS our system. With the pay-as-you-go model, this could ramp up a rather large invoice at the end of the month. In early 2023, there was quite a discussion around this topic on tech Twitter, as multiple open source products, probably most notably <a href="https://ping.gg/" target="_blank">ping.gg</a>, an online video-call startup was getting 1 TB of traffic going through in a 20 minute window. At the end of the day, with sensible cost-capping, budget alerting and quote-limits, having our bills sky-rocket should not happen, as most cloud providers do offer these features. Rate limiters and throttling are also approaches that could be useful in avoiding situation like so. Of course, there are (and probably always will be) horror stories of unexpectedly high bills, but if the above mentioned steps are considered, deploying a serverless system should not be any scarier than provisioning a standard server.
 
 ## Cold starts
 
-spin up when request is received
-[User makes request -> request goes to the server (large, but depends, eg. C#'s) -> cold start -> ORM spins up, connects to DB -> query the DB -> render/format output -> response sent back to the user]
+One of the biggest considerations about this architecture if probably the infamous cold-starts. Whenever a request is received, a new instance of our function spins up. This obviously takes time. If we connect to a database inside our function, establishing the SSL/TLS connection would add to the time. Referencing again Brandon Minnick's presentation, he noted the following numbers, for ARM64 architectures:
 
-Warm start: lamba hangs around after a request is done, with state persisted, and if another request comes, we already have an instance running. Meh.
+- 50th percentile for:
+
+  - .NET 6: 873ms
+  - .NET 7: 372ms
+
+- 90th percentile for:
+
+  - .NET 6: 909ms
+  - .NET 7: 435ms
+
+Most cloud providers offer a 'warm start' solution, to mitigate this problem: after an instance of our function spins up, it hangs around for a few minutes (usually 10-15), to serve any other incoming requests. This can reduce the start up time, since there is no need to provision a new instance of the server, neither to establish the SSL/TLS connection to a database, since we can "reuse" the previous server. Using Brandon's statistics, for warm starts, the numbers change as:
+
+- 50th percentile for:
+
+  - .NET 6: 5.5ms
+  - .NET 7: 6.7ms
+
+- 90th percentile for:
+
+  - .NET 6: 9.2ms
+  - .NET 7: 12.5ms
 
 ## Stateless
 
-Avoiding state enables serverless to be ephemeral, to scale out, and to provide resiliency without a central point of failure.
-Adding state can complicate the solution and make it harder to scale.
+We also need to keep in mind the implicit attribute of being stateless, when our servers are short lived. We simply cannot persist state, since our servers will be dropped in minutes. This, however, is the key that enables our solution to be ephemeral, and also to scale out and be resilient, without a clear point of failure. Just think about memory leaks - in my experience, this is always ends up being quite a pain to deal with, as it's difficult to see the root cause. In one of my previous projects, we even decided to restart our backend server every midnight, to avoid the creeping memory leaks. While it might feel a bit dirty, we simply do not need to care _that much_ about potential memory leaks, if our servers die off after serving a single request, anyway.
 
-Store state in a database, like SQL or CosmosDB.
-
-WRite to FS? Fucked. System level stuff? Nope. Stateless development.
-also good: memory leaks! when writing big monoliths, if you are not using RUst (lol), it will come back to bite you. but, if you spin up a server and throw it away after 1 request, this becomes an irrelevant concern (that 'what ifs' might still haunt you)
+Of course, state can (and should) still be persisted, where most of the time a database is a sensible choice (keeping in mind that we cannot read or write from the filesystem in a serverless function).
 
 ## What can't be done?
 
-- any long running stuff/long compute: Short run times make it easier for the serverless provider to free up resources as functions end and share functions across hosts. Most cloud providers limit the total time your function can run to around 10 minutes.
-- websockets? we'd want to keep that open, stateful -> but serverless is fast, quick to spin up and die, not hang around --> workarounds exist, like AWS API gateway, but limitations, eg. 2 hour connection duration
-- stateful stuff
-- system/file system IO
+There are some obvious usecases where serverless is clearly not the answer:
 
-## Serverless data, databases
-
-- what if we deploy a server in Australia, but our DB is in West EU? Server is close to the user, but if our frontend calls 1 server call, but the serverless function calls multiple requests to the DB (get authorizations, get profile information, get avatar, get notifications, etc -> return user entity) --> poor server does round trips from AUs to EU, rather than if we had the server close to the database, than 1 call from AUS to EU, then 5 inner-EU calls
-
-Azure Cosmos DB
-Vercel Serverless Functions
-AWS?
+- Any long running process: most cloud providers limit the total time our functions can run (to around 10 minutes).
+- Websockets: since they are also long running, stateful, using them in a serverless environment can be tricy. Workarounds do exist, like AWS API gateway, but there are limitations, for example a 2 hour connection duration.
+- Anything that requires to be locally stateful
+- System/file system IOs
 
 # Build and deploy a simple serverless function
 
