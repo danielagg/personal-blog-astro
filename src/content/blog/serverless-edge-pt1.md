@@ -218,7 +218,7 @@ curl --location 'https://vercel-serverless-go-fawn.vercel.app/api' \
 # References
 
 - Ford, N., Parsons, R., Kua, P. (2017). Building Evolutionary Architectures
-- Minnick, B. (2023). Introduction to Serverless with AWS Lambda in C#, NDC London 2023
+- Minnick, B. (2023). Introduction to Serverless with AWS Lambda in C#, NDC London 2023. https://www.youtube.com/watch?v=kqHYN1Y7pIc
 - Cloudflare (2023). What is serverless computing? | Serverless definition. https://www.cloudflare.com/learning/serverless/
 - AWS (2023). API Gateway quotas for configuring and running a WebSocket API. https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
 - Microsoft (2022). Serverless architecture considerations. https://learn.microsoft.com/en-us/dotnet/architecture/serverless/serverless-architecture-considerations
