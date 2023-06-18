@@ -19,7 +19,7 @@ These instances (usually) get deleted shortly after the request is served.
 
 It is quite a radical shift in paradigm: it emphasizes the importance of developers addressing their business problems at hand, rather than worry about the server infrastructure. No longer do we have to think about how many server we have, where, and which one takes which request. We don't have to try to make enough servers to facilitate the requests, but the requests 'make' servers for themselves. Then these servers scale down to absolute nothing, thus we only pay for the small amount of compute we've used. Even at massive scale, this approach can often be less expensive than owning and managing our own, persistent servers.
 
-![Alt text](https://blog.danielagg.com/assets/serverless_1_dark.png)
+![Serverless architecture diagram](https://blog.danielagg.com/assets/serverless_1_dark.png)
 
 Like with most aspects in software engineering, whether to go serverless is a sensible idea depends on your circumstances. It might be a no brainer to go with it if you are an indie developer or startup, with a few hundred users who might ocassionally call one of your APIs. You could end up with a monthly bill of cents, while providing a similar experience to your users as with a more traditional VPS. Case in point calls to mind <a href="https://www.youtube.com/watch?v=kqHYN1Y7pIc&t=41s" target="_blank">Brandon Minnick's recent talk at NDC Oslo</a>, in which he explains how he hosts the backends of his personal mobile applications on AWS Lambda (an extremely popular choice to host serverless functions), for less than the price of a single coffee, each month.
 
