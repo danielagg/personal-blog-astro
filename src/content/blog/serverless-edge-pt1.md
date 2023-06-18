@@ -219,10 +219,10 @@ curl --location 'https://vercel-serverless-go-fawn.vercel.app/api' \
 
 - Ford, N., Parsons, R., Kua, P. (2017). Building Evolutionary Architectures
 - Minnick, B. (2023). Introduction to Serverless with AWS Lambda in C#, NDC London 2023. https://www.youtube.com/watch?v=kqHYN1Y7pIc
+- Theo - t3․gg (2023). That's It, I'm Done With Serverless\*. https://www.youtube.com/watch?v=UPo_Xahee1g
+- Theo - t3.gg (2023). Two Weeks Of DDOS Attacks - Did We Survive?. https://www.youtube.com/watch?v=U3fycWWA1tg
+- Melkey (2023). You Don't Know Vercel Infrastructure. https://www.youtube.com/watch?v=tgpQx3cdVr8
 - Cloudflare (2023). What is serverless computing? | Serverless definition. https://www.cloudflare.com/learning/serverless/
 - AWS (2023). API Gateway quotas for configuring and running a WebSocket API. https://docs.aws.amazon.com/apigateway/latest/developerguide/limits.html#apigateway-execution-service-websocket-limits-table
 - Microsoft (2022). Serverless architecture considerations. https://learn.microsoft.com/en-us/dotnet/architecture/serverless/serverless-architecture-considerations
 - Vercel (2023). Serverless Functions Overview. https://vercel.com/docs/concepts/functions/serverless-functions
-- Theo - t3․gg (2023). That's It, I'm Done With Serverless\*. https://www.youtube.com/watch?v=UPo_Xahee1g
-- Theo - t3.gg (2023). Two Weeks Of DDOS Attacks - Did We Survive?. https://www.youtube.com/watch?v=U3fycWWA1tg
-- Melkey (2023). You Don't Know Vercel Infrastructure. https://www.youtube.com/watch?v=tgpQx3cdVr8
