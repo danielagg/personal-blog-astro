@@ -33,9 +33,17 @@ Of course, going serverless is not only for small projects. In hindsight, Amazon
 
 Since our serverless solution autoscales depending on how much traffic it gets, it is a fair question to ask what happens if an unexpectedly large amount of requests start to hit our functions, in worst case with a malicious indent, trying to DDoS our system. With the pay-as-you-go model, this could ramp up a rather large invoice at the end of the month. In early 2023, there was quite a discussion around this topic on tech Twitter, as multiple open source products, probably most notably <a href="https://ping.gg/" target="_blank">ping.gg</a>, an online video-call startup was getting 1 TB of traffic going through in a 20 minute window. At the end of the day, with sensible cost-capping, budget alerting and quote-limits, having our bills sky-rocket should not happen, as most cloud providers do offer these features. Rate limiters and throttling are also approaches that could be useful in avoiding situation like so. Of course, there are (and probably always will be) horror stories of unexpectedly high bills, but if the above mentioned steps are considered, deploying a serverless system should not be any scarier than provisioning a standard server.
 
+### Resilience, security
+
+It is worth mentioning the automatic fault tolerance that most serverless providers offer: typically, a built-in mechanism for failures or issues is present, out of the box. Since our application is distributed across multiple server, in case a specific server encounters operational issues, our cloud provider migrates our application over to a healthy server. This tends to require no manual intervention from our end, increasing the reliability of our services.
+
+Another baked-in feature tends to be out-of-the-box security best pratices setup for the servers. The serverless provider takes care of infrastructure security (eg. patching, monitoring, intrusion detection). Providers also commonly offer fine-grained access control and authorization mechanisms, allowing us to define a more granular permission matrix for our functions. This usually simplifies the security management on the developer's end, thus reducint the risk of misconfigurations or introducing vulnerabilities by accident or lack of familiarity with security (which is a whole field in itself).
+
+While these two points are quite attractive, it can mean vendor lock-in: we rely extensively on our cloud provider's infrastructure, ways of working, APIs, deployment mkodels, conventions, and so on. If we decide to switch vendors, it may end up being a quite painful migration, therefore it's important to consider the potential impact on our application's portability, and the long-term viability of our chosen provider.
+
 ## Cold starts
 
-One of the biggest considerations about this architecture if probably the infamous cold-starts. Whenever a request is received, a new instance of our function spins up. This obviously takes time. If we connect to a database inside our function, establishing the SSL/TLS connection would add to the time. Referencing again Brandon Minnick's presentation, he noted the following numbers, for ARM64 architectures:
+As of 2023, without doubt the biggest consideration to note about this architecture is the infamous cold-start: whenever a request is received, a new instance of our function spins up. This obviously takes time. If we connect to a database inside our function, establishing the SSL/TLS connection could add a considerable time on top it. Referencing again Brandon Minnick's presentation, he noted the following numbers, for ARM64 architectures:
 
 - 50th percentile for:
 
