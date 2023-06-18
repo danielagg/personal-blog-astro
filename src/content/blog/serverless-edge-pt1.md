@@ -80,10 +80,10 @@ Of course, state can (and should) still be persisted, where most of the time a d
 There are some obvious usecases where serverless is clearly not the answer:
 
 - Any long running process: most cloud providers limit the total time our functions can run (to around 10 minutes).
-- Websockets: since they are also long running and stateful, using them in a serverless environment can be tricy. Workarounds do exist, like AWS API gateway, but there are limitations, for example a 2 hour connection duration.
+- Websockets: since they are also long running and stateful, using them in a serverless environment can be tricky. Workarounds do exist, like AWS API gateway, but there are limitations, for example a 2 hour connection duration.
 - Anything that requires to be locally stateful.
 - System/file system IOs.
-- Transactions: across many different functions, ensuring the scope of a single transactions is delegated entirely to the caller of the functions. It's possible to do, but gets tricky.
+- Transactions: across many different functions, ensuring the scope of a single transaction is delegated entirely to the caller of the function. It's possible to do, but gets tricky.
 
 # Build and deploy a simple serverless function
 
