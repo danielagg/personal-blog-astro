@@ -1,15 +1,27 @@
 ---
 author: Daniel Agg
-pubDatetime: 2023-06-14T00:00:00Z
+pubDatetime: 2023-06-20T00:00:00Z
 title: Serverless and Edge - Part 2
 draft: false
 description: "Exploring Serverless in Software Development: Part 2 - The Edge"
 postSlug: serverless-edge-pt2
 ---
 
-This is the introductory post in a two-part series, exploring the world of Serverless and Edge Runtime. The main focus of this post will be Serverless, while the second one will focus on an alternative, newer approach in the form of Edge Computing.
+This is the second post in a two-part series, exploring the world of Serverless and Edge Runtime. The main focus of this post will be the Edge Runtime, after we've detailed what is Serverless, where it can be useful, and what are its caveats in the first post.
 
-# Future Trends in Serverless Computing
+# Edge Location or Edge Runtime
+
+Edge Location: running servers closer to the users. With Lambda, eg. us-east-2, and that's where our server spins up, serving users who are close to it, while we might also spin up a serverless function at ap-east-1, to serve users from the east. Lambda@Edge from AWS fits into this category.
+
+Edge Runtime: No more coldstarts! We have move our serverless functions to the Edge Runtime.
+It is a technology that is designed to be integrated into frameworks, not directly into applications.
+A massive caveat to note is that the Edge Runtime uses Javascript's V8 engine under the hood, therefore our application must be in Javascript/Typescript as well.
+
+Vercel offers Edge Functions, built on top of the runtime:
+
+## Cost comparison
+
+Cost on edge here from Vercel here. With Lambda, we pay to how much compute we've used, but with Edge, we pay per each request: difficult to compare, and it really depends on our usecase.
 
 Multi-cloud
 Edge Computing:
@@ -44,3 +56,9 @@ https://edge-data-latency.vercel.app/
 Azure Cosmos DB
 Vercel Serverless Functions
 AWS?
+
+# References
+
+https://www.youtube.com/watch?v=UPo_Xahee1g
+https://edge-runtime.vercel.sh/
+https://vercel.com/docs/concepts/functions/edge-functions
