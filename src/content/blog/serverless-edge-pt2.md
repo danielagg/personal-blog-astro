@@ -11,11 +11,17 @@ This is the second post in a two-part series, exploring the world of Serverless 
 
 # Edge Location or Edge Runtime
 
-Edge Location: running servers closer to the users. With Lambda, eg. us-east-2, and that's where our server spins up, serving users who are close to it, while we might also spin up a serverless function at ap-east-1, to serve users from the east. Lambda@Edge from AWS fits into this category.
+While defining what serverless is, with edge, we have a little more trouble. When 'edge' is mentioned, it can refer to a few, quite different concepts. It can refer to "edge location", or "edge runtime", or even "edge functions". Let's go through each, and see what exactly they mean.
 
-Edge Runtime: No more coldstarts! We have move our serverless functions to the Edge Runtime.
+1. Edge, the Location: the concept of running servers closer to the users. If we take AWS Lambda, we might have one instance running on the region us-east-2, meaning that's where our server spins up and serves users who are close to it. At the same time, we might also spin up a serverless function at ap-east-1, to serve users from the east. Lambda@Edge from AWS fits into this category - we are essentially running multiple instances of our serverless function, and each user will be served by the instance being geographically closest to them.
+
+2. Edge, the Runtime: unlike serverless functions, where an actual server has to spin up (cold start), and then serve the request, the edge runtime guarantees an environment where our code can execute immediately on a V8 platform, without the need to spin up any new servers.
+
+No more coldstarts! We have move our serverless functions to the Edge Runtime.
 It is a technology that is designed to be integrated into frameworks, not directly into applications.
 A massive caveat to note is that the Edge Runtime uses Javascript's V8 engine under the hood, therefore our application must be in Javascript/Typescript as well.
+
+Edge Functions: similar to serverless functions, they are distributed to regions around the world. For example Vercel's Edge Functions, small V8 platforms to execute small chunks of codes (functions).
 
 Vercel offers Edge Functions, built on top of the runtime:
 
