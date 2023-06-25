@@ -19,7 +19,23 @@ While defining what serverless is was quite straight forward, with edge, we have
 
 3. Edge Functions: functions running on the Edge Runtime. While the Edge Runtime provides the platform for frameworks to use, Edge Functions are our small applications.
 
-## Pros and cons, comparing to Serverless
+## Global vs Regional Edge
+
+Of course, on paper it sounds better if our servers/functions are as close to the users as possible, since surely, this would reduce the response time for the requests.
+
+Right?
+
+A point to consider here is where our database is, geographically. Do we have a single Postgres instance running in East US? Since most of the them, our clients (hopefully) do not query the database directly, but go through a backend server, this can get quite important. If this backend is close to the database (in the same region), then the first request between the user and our backend might take a few miliseconds. However, if the endpoint the user hit up on the server does a number of roundtrips to the database (eg. make a query first to see if the user is authorized, then query again to get some data, then query again to fetch something more, and so on), since the backend server is regionally close to the database, these n requests will not introduce much latency.
+
+However, if we move our backend away from the database's region, and place it as close to the user as possible, then the first, initial request between the user and backend will be quicker, but then the server has to make longer roundtrips to the database. This can get out of hand quickly, if our endpoint makes a considerable amount of queries towards the database.
+
+Vercel recommends regional edge functions in thise case, which are deployed near to the database dependencies, or we could even use globally-distributed databases. Vercel started to offer solutions for these as well, with Vercel Postgres KV, Blob and Edge Config. By default, however, edge functions will run in every region globally, therefore this regional way of working is something to configure ourselves.
+
+## Turso
+
+The company Turso offers an interesting solution to help with this potential issue as well: edge hosted libSQL (SQLite) databases, which are deployed to <a href="https://fly.io/" target="_blank">Fly.io</a>, to 26 locations across the globe. We can strategically choose which locations to deploy to, aiming them to be closest to our edge functions to reduce latency. It works by creating a primary instance of our database, which is once created, cannot be moved to a different location. Then, we can spin up replicas of it, which will get synchronized up to the primary database. Read operations will be quick from these replicas, however, write operations would still need to go to the primary database.
+
+# Pros and cons, comparing to Serverless
 
 Pros:
 
@@ -62,19 +78,92 @@ Just like before, the CLI command of `vercel deploy` can be used to create a sta
 
 ![Vercel deployment summary](https://blog.danielagg.com/assets/vercel_edge_function_deploy.png)
 
-https://vercel-ts-edge-example.vercel.app/
+Request, Response are standard web API objects.
+https://developer.mozilla.org/en-US/docs/Web/API/Response
 
-# Data on the Edge
+with that in mind, rewritten:
 
----
+```ts
+export const config = {
+  runtime: "edge",
+};
 
-https://edge-data-latency.vercel.app/
+interface EmployeeData {
+  name: string;
+  age: number;
+  jobTitle: string;
+  badgeNumber: number;
+}
+
+export default async (request: Request) => {
+  if (request.method !== "POST") {
+    return new Response("Only POST requests are allowed.", { status: 405 });
+  }
+
+  const res = new Response();
+
+  res.headers.append("Content-Type", "text/csv");
+  res.headers.append("Content-Disposition", "attachment; filename=data.csv");
+
+  const rows: string[][] = [];
+  rows.push(["Name", "Age", "Job Title", "Badge Number"]);
+
+  let employees: EmployeeData[] = [];
+
+  try {
+    employees = await request.json();
+  } catch (error) {
+    return new Response("Could not parse the JSON payload.", { status: 400 });
+  }
+
+  try {
+    for (const employee of employees) {
+      const row: string[] = [
+        employee.name,
+        employee.age.toString(),
+        employee.jobTitle,
+        employee.badgeNumber.toString(),
+      ];
+      rows.push(row);
+    }
+
+    const csvData = rows.map(row => row.join(",")).join("\n");
+
+    return new Response(csvData);
+  } catch (error) {
+    return new Response("Could not write CSV data.", { status: 500 });
+  }
+};
+```
+
+After deploying it to Vercel, my URL this time is: https://vercel-ts-edge-example.vercel.app/
+Just like in the previous post, if you decide to run the following curl, you will be able to convert employees data to a CSV - and this time, no cold starts should be experienced.
+
+```console
+curl --location 'https://vercel-ts-edge-example.vercel.app/api' \
+--header 'Content-Type: application/json' \
+--data '[
+    {
+        "name": "John Doe",
+        "age": 45,
+        "jobTitle": "Software Developer",
+        "badgeNumber": 58195
+    },
+    {
+        "name": "Jane Doe",
+        "age": 32,
+        "jobTitle": "Software Developer",
+        "badgeNumber": 58191
+    }
+]'
+```
 
 # References
 
-https://www.youtube.com/watch?v=UPo_Xahee1g
-https://edge-runtime.vercel.sh/
-https://vercel.com/docs/concepts/functions/edge-functions
-https://supabase.com/docs/guides/functions
-https://vercel.com/docs/concepts/functions/edge-functions
-https://docs.turso.tech/
+- Theo - t3․gg (2023). That's It, I'm Done With Serverless\*. https://www.youtube.com/watch?v=UPo_Xahee1g
+- Vercel (2023). The Edge Runtime. https://edge-runtime.vercel.sh/
+- Vercel (2023). Edge Functions Overview. https://vercel.com/docs/concepts/functions/edge-functions
+- Vercel (2023). Vercel Edge Functions + Database Latency. https://edge-data-latency.vercel.app/
+- Vercel (2022). Vercel Edge Functions can now be regional or global. https://vercel.com/changelog/regional-edge-functions-are-now-available
+- Supabase (2023). Edge Functions. https://supabase.com/docs/guides/functions
+- Turso (2023). Turso documentation. https://docs.turso.tech/
