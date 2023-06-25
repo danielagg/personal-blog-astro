@@ -40,6 +40,30 @@ Cons:
 
 Cost on edge here from Vercel here. With Lambda, we pay to how much compute we've used, but with Edge, we pay per each request: difficult to compare, and it really depends on our usecase.
 
+# Migrating our JSON-CSV converter to an Edge Function
+
+Since our JSON to CSV converter serverless function from the first part of these posts was written in Go, we cannot port it one-to-one to the Edge Runtime, on Vercel. We'll have to convert our code either to TypeScript, or Javascript.
+
+We can keep the same project structure, with an "api" folder, however, inside it, we'll create an index.ts file, with the following, example content from Vercel:
+
+```ts
+export const config = {
+  runtime: "edge",
+};
+
+export default (request: Request) => {
+  return new Response(`Hello, from ${request.url} I'm now an Edge Function!`);
+};
+```
+
+The 'config' object is necessary to indicate that this is in fact not a serverless function, but an edge function - if we were writing a NextJS app, we'd have to use a similar notation as well.
+
+Just like before, the CLI command of `vercel deploy` can be used to create a staging environment, and `vercel --prod` to push our API to a production environment.
+
+![Vercel deployment summary](https://blog.danielagg.com/assets/vercel_edge_function_deploy.png)
+
+https://vercel-ts-edge-example.vercel.app/
+
 # Data on the Edge
 
 ---
