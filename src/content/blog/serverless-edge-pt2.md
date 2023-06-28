@@ -7,7 +7,7 @@ description: "Exploring Serverless in Software Development: Part 2 - The Edge"
 postSlug: serverless-edge-pt2
 ---
 
-This is the second post in a two-part series, exploring the world of Serverless and Edge Runtime. The main focus of this post will be the Edge Runtime, after we've detailed what Serverless is, where it can be useful, and what are its caveats in the first post.
+This is the second post in a two-part series, exploring the world of Serverless and Edge Runtime. The main focus of this post will be the Edge Runtime, after we've detailed what Serverless is, where it can be useful, and what its caveats are in the first post.
 
 # Edge Location or Edge Runtime
 
@@ -15,21 +15,23 @@ While defining what serverless is was quite straight forward, with edge, we have
 
 1. Edge, the Location: the concept of running servers closer to the users. If we take AWS Lambda, we might have one instance running on the region us-east-2, meaning that's where our server spins up and serves users who are close to it. At the same time, we might also spin up a serverless function at ap-east-1, to serve users from the east. Lambda@Edge from AWS fits into this category - we are essentially running multiple instances of our serverless function, and each user will be served by the instance being geographically closest to them.
 
-2. Edge, the Runtime: unlike serverless functions, where an actual server has to spin up (cold start), and then serve the request, the edge runtime guarantees an environment where our code can execute immediately on a V8 platform, without the need to spin up any new servers. It is a technology that is designed to be integrated into frameworks, not directly into applications - probably most notable, NextJS uses it, but providers like Supabase also built products on top of it. A massive caveat to note is that the Edge Runtime uses Javascript's V8 engine under the hood, therefore our application must be in Javascript/Typescript as well.
+2. Edge, the Runtime: unlike serverless functions, where an actual server has to spin up (cold start), and then serve the request, the edge runtime guarantees an environment where our code can execute immediately on a V8 platform, without the need to spin up any new servers. It is a technology that is designed to be integrated into frameworks, not directly into applications - probably most notably, NextJS uses it, but providers like Supabase also built products on top of it. A massive caveat to note is that the Edge Runtime uses Javascript's V8 engine under the hood, therefore our application must be in Javascript/Typescript as well, and not rely on any component that requires any kind of native runtime.
 
-3. Edge Functions: functions running on the Edge Runtime. While the Edge Runtime provides the platform for frameworks to use, Edge Functions are our small applications.
+3. Edge Functions: these are code blocks, simple functions running on the Edge Runtime. While the Edge Runtime provides the platform for frameworks to use, Edge Functions are our small applications.
 
 ## Global vs Regional Edge
 
-Of course, on paper it sounds better if our servers/functions are as close to the users as possible, since surely, this would reduce the response time for the requests.
+On paper it might sound better if our servers/functions are as close to the users as possible, since surely, this would reduce the response time for the requests.
 
 Right?
 
-A point to consider here is where our database is, geographically. Do we have a single Postgres instance running in East US? Since most of the them, our clients (hopefully) do not query the database directly, but go through a backend server, this can get quite important. If this backend is close to the database (in the same region), then the first request between the user and our backend might take a few miliseconds. However, if the endpoint the user hit up on the server does a number of roundtrips to the database (eg. make a query first to see if the user is authorized, then query again to get some data, then query again to fetch something more, and so on), since the backend server is regionally close to the database, these n requests will not introduce much latency.
+Most of the time, a point to consider here is where our database is, geographically. Do we have a single Postgres instance running in East US? Since most of the time, our clients (hopefully) do not query the database directly, but go through a backend server, this can get quite important. If this backend is close to the database (in the same region), then the first request between the user and our backend might take a few miliseconds, however, if the endpoint the user hits up on the server does a number of roundtrips to the database (eg. make a query first to see if the user is authorized, then query again to get some data, then query again to fetch something more, and so on), since the backend server is regionally close to the database, these `n` number of requests will not introduce much latency.
 
 However, if we move our backend away from the database's region, and place it as close to the user as possible, then the first, initial request between the user and backend will be quicker, but then the server has to make longer roundtrips to the database. This can get out of hand quickly, if our endpoint makes a considerable amount of queries towards the database.
 
-Vercel recommends regional edge functions in thise case, which are deployed near to the database dependencies, or we could even use globally-distributed databases. Vercel started to offer solutions for these as well, with Vercel Postgres KV, Blob and Edge Config. By default, however, edge functions will run in every region globally, therefore this regional way of working is something to configure ourselves.
+Vercel recommends regional edge functions in thise case, which are deployed near to the database dependencies. This means, our Edge Function might not be the geographically closest to the user, but to the database. Alternatively, we could even use globally-distributed databases: Vercel started to offer solutions for these as well, such as Postgres KV, Blob and Edge Config.
+
+By default, edge functions will run in every region globally, therefore this regional way of working is something to opt-in, and configure ourselves.
 
 ## Turso
 
@@ -39,10 +41,9 @@ The company Turso offers an interesting solution to help with this potential iss
 
 Pros:
 
-- No more cold starts
-- Even closer proximity to users and database: what if we deploy a server in Australia, but our DB is in West EU? Server is close to the user, but if our frontend calls 1 server call, but the serverless function calls multiple requests to the DB (get authorizations, get profile information, get avatar, get notifications, etc -> return user entity) --> poor server does round trips from AUs to EU, rather than if we had the server close to the database, than 1 call from AUS to EU, then 5 inner-EU calls
-
-- Cost: with serverless, we are paying for the compute we've used, but with edge functions, we pay per request. This makes it difficult to compare the cost
+- No cold starts whatsoever.
+- Close proxmity: if we address the previously noted point about not placing our backend service far from our datastores, close proximity still can be achieved.
+- Cost: with serverless, we are paying for the compute we've used, but with Edge Functions we pay per request. This makes it difficult to compare the cost, but Edge Functions tend to be cheaper, on average. In the following chapter, we will take deeper look on this point.
 
 Cons:
 
