@@ -39,30 +39,24 @@ The company Turso offers an interesting solution to help with this potential iss
 
 # Pros and cons, comparing to Serverless
 
-Pros:
+Having an understanding of what the Edge Runtime and Edge Functions are, we can evaluate some of the pros and cons of them. Starting with the pros:
 
 - No cold starts whatsoever.
-- Close proxmity: if we address the previously noted point about not placing our backend service far from our datastores, close proximity still can be achieved.
-- Cost: with serverless, we are paying for the compute we've used, but with Edge Functions we pay per request. This makes it difficult to compare the cost, but Edge Functions tend to be cheaper, on average. In the following chapter, we will take deeper look on this point.
+- Close proxmity: if we address the previously noted point about not placing our backend service far from our datastores, close proximity can still be achieved.
+- Cost: with serverless, we are paying for the compute we've used, but with Edge Functions we tend to pay per request. This makes it difficult to compare the cost, but anecdotally, for most usecases Edge Functions tend to be cheaper, on average.
 
-Cons:
+Now to consider some negatives:
 
-- V8 dependency: Javascript/Typescript apps can be executed only: Vercel mentions Node, Supabase mentions deno.
-- Maturity: we are on the bleeding edge with Edge.
-
-## Cost comparison
-
-As noted in the previous section, with Edge Functions, we pay per request, while with serverless, we pay per compute used. This, by nature, will mean that one application might benefit from migrating to an Edge Function, while another might be better off on serverless.
-
-Reference Vercel's pricing for Edge Functions, overall we would pay:
-
--
+- V8 dependency: Javascript/Typescript apps can be executed only: Vercel mentions Node, Supabase mentions deno, as their runtime environment.
+- Maturity: the Edge Runetime and Functions are still considered to be bleeding edge technologies.
 
 # Migrating our JSON-CSV converter to an Edge Function
 
-Since our JSON to CSV converter serverless function from the first part of these posts was written in Go, we cannot port it one-to-one to the Edge Runtime, on Vercel. We'll have to convert our code either to TypeScript, or Javascript.
+Similarly to the previous post, let's try to get a sense how to actually deploy an Edge Function. The process will feel extremely similar to how our serverless CSV converter was provisioned.
 
-We can keep the same project structure, with an "api" folder, however, inside it, we'll create an index.ts file, with the following, example content from Vercel:
+Since our JSON to CSV converter serverless function was written in Go, we cannot port it one-to-one to the Edge Runtime, on Vercel. We'll have to convert our code either to TypeScript, or Javascript.
+
+We can keep the same project structure, with an "api" folder, however, inside it, we'll create an index.ts file with the following, example content from Vercel:
 
 ```ts
 export const config = {
@@ -74,16 +68,17 @@ export default (request: Request) => {
 };
 ```
 
-The 'config' object is necessary to indicate that this is in fact not a serverless function, but an Edge Function - if we were writing a NextJS app, we'd have to use a similar notation as well.
+The 'config' object is necessary to indicate that this is in fact _not_ a serverless function, but an Edge Function - if we were writing a NextJS app, we'd have to use a similar notation as well.
 
 Just like before, the CLI command of `vercel deploy` can be used to create a staging environment, and `vercel --prod` to push our API to a production environment.
 
 ![Vercel deployment summary](https://blog.danielagg.com/assets/vercel_edge_function_deploy.png)
 
-Request, Response are standard web API objects.
-https://developer.mozilla.org/en-US/docs/Web/API/Response
+Inspecting the build and deployment on Vercel's UI, we can confirm that indeed, our code is deployed as an Edge Function, running globally (do you recall from earlier the difference between regional and global? for our CSV converter, since no database connection is necessary, opting to stay on the global deployment model would make sense)
 
-with that in mind, rewritten:
+Another point to note here, is the Request and Response objects - they are standard Web API interfaces of the Fetch API.
+
+Let's now rewrite the Go code to TypeScript:
 
 ```ts
 export const config = {
@@ -162,6 +157,7 @@ curl --location 'https://vercel-ts-edge-example.vercel.app/api' \
 
 # References
 
+- MDN Web Docs (2023). Web APIs. https://developer.mozilla.org/en-US/docs/Web/API
 - Theo - t3․gg (2023). That's It, I'm Done With Serverless\*. https://www.youtube.com/watch?v=UPo_Xahee1g
 - Vercel (2023). The Edge Runtime. https://edge-runtime.vercel.sh/
 - Vercel (2023). Edge Functions Overview. https://vercel.com/docs/concepts/functions/edge-functions
