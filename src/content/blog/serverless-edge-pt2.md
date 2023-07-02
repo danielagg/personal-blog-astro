@@ -37,7 +37,7 @@ By default, Edge Functions will run in every region globally, therefore this reg
 
 The company Turso offers an interesting solution to help with this potential issue as well: edge hosted libSQL (SQLite) databases, which are deployed to <a href="https://fly.io/" target="_blank">Fly.io</a>, to 26 locations across the globe. We can strategically choose which locations to deploy to, aiming them to be closest to our Edge Functions to reduce latency. It works by creating a primary instance of our database, which is once created, cannot be moved to a different location. Then, we can spin up replicas of it, which will get synchronized up to the primary database. Read operations will be quick from these replicas, however, write operations would still need to go to the primary database.
 
-# Pros and cons, comparing to Serverless
+# Pros and Cons
 
 Having an understanding of what the Edge Runtime and Edge Functions are, we can evaluate some of the pros and cons of them. Starting with the pros:
 
