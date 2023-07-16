@@ -18,16 +18,13 @@ const sortedPosts = getSortedPosts(posts);
     <section>
       <ul>
         {
-          sortedPosts.map(
-            ({ data }, index) =>
-              index < 4 && (
-                <Card
-                  href={`/posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              )
-          )
+          sortedPosts.map(({ data }) => (
+            <Card
+              href={`/posts/${slugify(data)}`}
+              frontmatter={data}
+              secHeading={false}
+            />
+          ))
         }
       </ul>
     </section>

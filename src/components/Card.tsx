@@ -16,12 +16,12 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
         href={isApiumArticle ? externalUrl : href}
         className="inline-block text-lg font-medium underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
-        <h2 className="text-2xl font-medium text-main-accent decoration-wavy underline-offset-2 hover:underline">
+        <h2 className="text-2xl font-medium text-main-accentLight decoration-wavy underline-offset-4 hover:underline dark:text-main-accent">
           {title}
         </h2>
       </a>
 
-      <div className="flex items-center space-x-4">
+      <div className="mt-2 flex items-center space-x-4">
         <PostDate datetime={pubDatetime} />
         {isApiumArticle ? (
           <div className="my-1 inline-flex items-center space-x-2 border-l-4 border-main-accent py-1 px-2 text-xs opacity-50 dark:border-main-accent-dark">

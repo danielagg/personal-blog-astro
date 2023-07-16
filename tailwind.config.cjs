@@ -13,6 +13,7 @@ module.exports = {
         'base-inverted': "#6b7280",
         'base-light': '#9ca3af',
         accent: '#38BDF8',
+        accentLight: '#44403c',
         white: '#fff'
       }
     },
