@@ -16,7 +16,7 @@ export default function Card({ href, frontmatter, secHeading = true }: Props) {
         href={isApiumArticle ? externalUrl : href}
         className="inline-block text-lg font-medium underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
       >
-        <h2 className="text-2xl font-medium text-main-accent hover:text-main-accent-light">
+        <h2 className="text-2xl font-medium text-main-accent decoration-wavy underline-offset-2 hover:underline">
           {title}
         </h2>
       </a>

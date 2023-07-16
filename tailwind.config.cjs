@@ -12,16 +12,15 @@ module.exports = {
         base: '#6b7280',
         'base-inverted': "#6b7280",
         'base-light': '#9ca3af',
-        accent: '#10b981',
-        'accent-light': '#34d399',
+        accent: '#38BDF8',
         white: '#fff'
       }
     },
     backgroundColor: {
       main: {
-        base: '#0f172a',
+        base: '#020617',
         'base-inverted': '#f1f5f9',
-        accent: '#0f172a',
+        accent: '#020617',
         highlight: '#475569'
       }
     },
