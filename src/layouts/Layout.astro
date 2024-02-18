@@ -1,6 +1,7 @@
 ---
 import { SITE } from "@config";
 import "@styles/base.css";
+import '@fontsource/inconsolata';
 
 const googleSiteVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 
@@ -48,15 +49,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content="/assets/og_image.png" />
 
-    <!-- Google Font -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-
     {
       // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
       // include google-site-verification tag in the heading
@@ -70,7 +62,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     }
   </head>
   <body
-    class="base-inverted text-main-base-inverted dark:bg-main-base dark:text-main-base"
+    class="bg-main-base text-main-base"
   >
     <slot />
   </body>

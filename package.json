@@ -18,6 +18,7 @@
     "@astrojs/check": "^0.5.4",
     "@astrojs/rss": "^4.0.5",
     "@astrojs/tailwind": "^5.1.0",
+    "@fontsource/inconsolata": "^5.0.16",
     "@resvg/resvg-js": "^2.6.0",
     "astro": "^4.4.0",
     "fuse.js": "^7.0.0",

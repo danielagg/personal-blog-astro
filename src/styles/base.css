@@ -5,11 +5,13 @@
 @layer base {
   :root,
   body {
-    @apply flex min-h-screen flex-col font-mono;
+    @apply flex min-h-screen flex-col;
   }
   ::selection {
-    @apply bg-main-highlight text-main-white;
+    background: #1e293b;
+    color: white;
   }
+
   section,
   footer {
     @apply mx-auto max-w-5xl px-4;

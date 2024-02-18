@@ -9,33 +9,30 @@ module.exports = {
     },
     textColor: {
       main: {
-        base: '#6b7280',
-        'base-inverted': "#6b7280",
-        'base-light': '#9ca3af',
-        accent: '#38BDF8',
-        accentLight: '#44403c',
-        white: '#fff'
+        base: '#a1a1aa',
+        'base-inverted': "#a1a1aa", 
+        'base-light': '#a1a1aa', 
+        accent: '#10b981', 
+        accentLight: '#10b981', 
       }
     },
     backgroundColor: {
       main: {
-        base: '#020617',
-        'base-inverted': '#f1f5f9',
-        accent: '#020617',
-        highlight: '#475569'
+        base: '#09090b',
+        'base-inverted': '#09090b',
       }
     },
     borderColor: {
       main: {
-        base: '#374151',
-        'base-inverted': '#d1d5db',
-        'accent-dark': '#374151',
-        'accent': '#d1d5db'
+        base: '#27272a',
+        'base-inverted': '#27272a',
+        'accent-dark': '#10b981',
+        'accent': '#10b981'
       }
     },
     fontFamily: {
-      mono: ["Heebo", "sans-serif"],
-    },
+        sans: ['Inconsolata', "sans-serif"],
+    }
   },
   plugins: [require("@tailwindcss/typography")],
 };
