@@ -20,6 +20,7 @@ module.exports = {
       main: {
         base: '#09090b',
         'base-inverted': '#09090b',
+        accent: '#18181b'
       }
     },
     borderColor: {
