@@ -10,7 +10,7 @@ export default function Card({ href, frontmatter }: Props) {
   const { title, pubDatetime, description, isApiumArticle, externalUrl } =
     frontmatter;
   return (
-    <li className="my-10 bg-main-accent p-8 border-l-8 border-main-accent/50 rounded">
+    <li className="my-5 bg-main-accent p-8 border-l-8 border-main-accent/50 rounded">
       <a
         href={isApiumArticle ? externalUrl : href}
         className="inline-block underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"

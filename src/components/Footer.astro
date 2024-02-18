@@ -3,14 +3,9 @@ import Hr from "./Hr.astro";
 
 const currentYear = new Date().getFullYear();
 
-export interface Props {
-  noMarginTop?: boolean;
-}
-
-const { noMarginTop = false } = Astro.props;
 ---
 
-<footer class={`${noMarginTop ? "" : "mt-auto"}`}>
+<footer class='mt-12'>
   <Hr noPadding />
   <div class="footer-wrapper">
     <div class="copyright-wrapper">
