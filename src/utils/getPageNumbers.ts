@@ -1,6 +1,4 @@
-import { SITE } from "@config";
-
-const getPageNumbers = (numberOfPosts: number) => {
+const getPageNumbers = () => {
   return 1;
 };
 

@@ -4,10 +4,9 @@ import type { BlogFrontmatter } from "@content/_schemas";
 export interface Props {
   href?: string;
   frontmatter: BlogFrontmatter;
-  secHeading?: boolean;
 }
 
-export default function Card({ href, frontmatter, secHeading = true }: Props) {
+export default function Card({ href, frontmatter }: Props) {
   const { title, pubDatetime, description, isApiumArticle, externalUrl } =
     frontmatter;
   return (
