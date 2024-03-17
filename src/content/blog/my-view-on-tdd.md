@@ -6,35 +6,27 @@ draft: true
 description: My personal views on using (or not?) TDD.
 ---
 
+My opinion on TDD went back and forth in the last few years. I like to think that my view on it _now_ is a bit more informed, based on more experience, however it is based on _my_ experience, and opinions do change overtime - I may come around in another 5 years.
+
 I admire the hell out of Kent Beck, the gentleman who coined TDD, a genuine pillar of the industry - if you haven’t checked his latest book out (as of early-2024), please do so: <a href="https://www.amazon.com/Tidy-First-Personal-Exercise-Empirical/dp/1098151240" target="_blank">Tidy First</a>, an absolute banger, a practical book, a fun and fast read with quite some gems to take away.
 
-I am nowhere near his caliber, being just a random dev in his early-30s, bored on a Saturday evening with a glass of whiskey who got brave enough to write his thoughts out - but not in mad faith.
+I am nowhere near his caliber, being just a random dev in his early-30s, bored on a Saturday evening with a glass of whiskey who got brave enough to write his thoughts out - but not in bad faith.
 
 ## So, should I do TDD?
 
 A lot of people will reply with a hard no, while a lot of people will argue that it’s the best thing that came about in our industry in the last two decade or so.
 
-Or be it 25% and 75%.
+Which opinion is louder? I think it depends on where you ask: Twitter? Discord? Your colleagues? God forbid you ask on LinkedIn? (maybe don’t)
 
-Maybe the other way around.
-
-It all depends on where you ask: Twitter, Discord, reddit or your colleagues? God forbid you ask on LinkedIn? (maybe don’t)
-
-Either way, both camps will be quite vocal, and people will be very passionate about their answers - almost as passionate as if talking about Tailwind versus vanilla CSS. Or TypeScript versus Javascript.
+Either way, people will be very passionate about their answers - almost as passionate as if talking about Tailwind versus vanilla CSS, or TypeScript versus Javascript.
 
 I have opinions on all of these, and I know you do too.
 
-(scroll down for the correct answer for all of these questions, btw)
+Everyone’s experience is different and our strongest opinions form upon our own experience, not based on watching YouTube videos, reading posts, or pretending to watch Udemy courses. As such, some may have had an amazing experience developing software with TDD, and for some it was hell.
 
-Everyone’s experience is different.
+<hr class="border-main-base-inverted dark:border-main-base" />
 
-Our strongest opinions form upon our own experience, not based on watching YouTube videos, reading posts, or pretending to watch Udemy courses.
-
-As such, some may have had an amazing experience developing software with TDD: the lucky bastards who had a well defined problems and requirements. Yet, some may have had the most miserable time with it.
-
-I fall into the latter category
-
---
+If you are lucky to be in a company that does event storming and what not, that will make life easier with TDD. But in my experience, especially after 2020 where teams are remote/distributed around the world in different timezones, it financially doesnt' make sense to get everyone together and do event stormings. Sure, it can be done online, but it's never going to be the same as an in-person workshop.
 
 **Test-driven development** (**TDD**) is a [software development process](https://en.wikipedia.org/wiki/Software_development_process) relying on software requirements being converted to [test cases](https://en.wikipedia.org/wiki/Test_case) before software is fully developed
 
